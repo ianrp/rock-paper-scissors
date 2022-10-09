@@ -10,7 +10,7 @@ function getComputerChoice() {
     }
 }
 
-// Given a player input and valid computer selection, return an outcome string
+// Given a player input and valid computer selection, return an outcome score value
 function playRound(playerSelection, computerSelection) {
 
     // For each possible player selection, determine outcome based on computer selection.
@@ -20,38 +20,65 @@ function playRound(playerSelection, computerSelection) {
         case "rock":
             switch(computerSelection) {
                 case "Scissors":
-                    return "You Win! Rock beats Scissors";
+                    console.log("You Win! Rock beats Scissors");
+                    return 1;
                 case "Paper":
-                    return "You Lose! Paper beats Rock";
+                    console.log("You Lose! Paper beats Rock");
+                    return -1;
                 default:
-                    return "Tie! You both chose Rock";
+                    console.log("Tie! You both chose Rock");
+                    return 0;
             }
 
         case "paper":
             switch(computerSelection) {
                 case "Rock":
-                    return "You Win! Paper beats Rock";
+                    console.log("You Win! Paper beats Rock");
+                    return 1;
                 case "Scissors":
-                    return "You Lose! Scissors beats Paper";
+                    console.log("You Lose! Scissors beats Paper");
+                    return -1;
                 default:
-                    return "Tie! You both chose Paper";
+                    console.log("Tie! You both chose Paper");
+                    return 0;
             }
 
         case "scissors":
             switch(computerSelection) {
                 case "Paper":
-                    return "You Win! Scissors beats Paper";
+                    console.log("You Win! Scissors beats Paper");
+                    return 1;
                 case "Rock":
-                    return "You Lose! Rock beats Scissors";
+                    console.log("You Lose! Rock beats Scissors");
+                    return -1;
                 default:
-                    return "Tie! You both chose Scissors";
+                    console.log("Tie! You both chose Scissors");
+                    return 0;
             }
 
         default:
-            return "Error: invalid selection";
+            console.log("Error: invalid selection");
+            return 0;
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+/*  Play a 5 round game by prompting for a player choice, getting a random computer choice,
+    and tallying the result of each round. Then report the net result  */
+function game() {
+    const numRounds = 5;
+    let score = 0;
+
+    for (let i = 0; i < numRounds; i++) {
+        score += playRound(prompt("Rock, Paper, or Scissors?"), getComputerChoice());
+    }
+
+    if (score > 0) {
+        console.log("You won the game!");
+    } else if  (score < 0) {
+        console.log("You lost the game!");
+    } else {
+        console.log("The game is a tie!");
+    }
+}
+
+game();
