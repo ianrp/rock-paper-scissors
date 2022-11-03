@@ -10,8 +10,11 @@ function getComputerChoice() {
     }
 }
 
-// Given a player input and valid computer selection, return an outcome score value
-function playRound(playerSelection, computerSelection) {
+function playRound() {
+
+    const playerSelection = this.id;
+    const computerSelection = getComputerChoice();
+    displayComputerChoice(computerSelection);
 
     // For each possible player selection, determine outcome based on computer selection.
     // Player selection is converted to lower case so that input is case-insensitive
@@ -20,65 +23,84 @@ function playRound(playerSelection, computerSelection) {
         case "rock":
             switch(computerSelection) {
                 case "Scissors":
-                    console.log("You Win! Rock beats Scissors");
-                    return 1;
+                    displayResult("You Win! Rock beats Scissors");
+                    addPlayerPoint();
+                    break;
                 case "Paper":
-                    console.log("You Lose! Paper beats Rock");
-                    return -1;
+                    displayResult("You Lose! Paper beats Rock");
+                    addComputerPoint();
+                    break;
                 default:
-                    console.log("Tie! You both chose Rock");
-                    return 0;
+                    displayResult("Tie! You both chose Rock");
             }
+            break;
 
         case "paper":
             switch(computerSelection) {
                 case "Rock":
-                    console.log("You Win! Paper beats Rock");
-                    return 1;
+                    displayResult("You Win! Paper beats Rock");
+                    addPlayerPoint();
+                    break;
                 case "Scissors":
-                    console.log("You Lose! Scissors beats Paper");
-                    return -1;
+                    displayResult("You Lose! Scissors beats Paper");
+                    addComputerPoint();
+                    break;
                 default:
-                    console.log("Tie! You both chose Paper");
-                    return 0;
+                    displayResult("Tie! You both chose Paper");
             }
+            break;
 
         case "scissors":
             switch(computerSelection) {
                 case "Paper":
-                    console.log("You Win! Scissors beats Paper");
-                    return 1;
+                    displayResult("You Win! Scissors beats Paper");
+                    addPlayerPoint();
                 case "Rock":
-                    console.log("You Lose! Rock beats Scissors");
-                    return -1;
+                    displayResult("You Lose! Rock beats Scissors");
+                    addComputerPoint();
                 default:
-                    console.log("Tie! You both chose Scissors");
-                    return 0;
+                    displayResult("Tie! You both chose Scissors");
             }
+            break;
 
         default:
-            console.log("Error: invalid selection");
-            return 0;
+            displayResult("Error: invalid selection");
     }
 }
 
-/*  Play a 5 round game by prompting for a player choice, getting a random computer choice,
-    and tallying the result of each round. Then report the net result  */
-function game() {
-    const numRounds = 5;
-    let score = 0;
+const winScore = 5;
 
-    for (let i = 0; i < numRounds; i++) {
-        score += playRound(prompt("Rock, Paper, or Scissors?"), getComputerChoice());
-    }
+const computerChoice = document.querySelector(".computer-choice");
+const results = document.querySelector(".results");
+const winner = document.querySelector(".winner");
+const playerScoreElement = document.querySelector(".player-score");
+const computerScoreElement = document.querySelector(".computer-score");
+let playerScore = 0;
+let computerScore = 0;
 
-    if (score > 0) {
-        console.log("You won the game!");
-    } else if  (score < 0) {
-        console.log("You lost the game!");
-    } else {
-        console.log("The game is a tie!");
+const buttons = document.querySelectorAll("button");
+buttons.forEach(button => button.addEventListener("click", playRound));
+
+function displayComputerChoice(choice) {
+    computerChoice.textContent = choice;
+}
+
+function displayResult(message) {
+    const result = document.createElement("div");
+    result.textContent = message;
+    results.appendChild(result);
+}
+
+function addPlayerPoint() {
+    playerScoreElement.textContent = ++playerScore;
+    if (playerScore === winScore && computerScore < winScore) {
+        winner.textContent = "YOU WIN";
     }
 }
 
-game();
+function addComputerPoint() {
+    computerScoreElement.textContent = ++computerScore;
+    if (computerScore === winScore && playerScore < winScore) {
+        winner.textContent = "YOU LOSE";
+    }
+}
